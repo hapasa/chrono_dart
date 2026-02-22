@@ -140,9 +140,9 @@ ParsingComponents afternoon(ReferenceWithTimezone reference,
 
 ParsingComponents noon(ReferenceWithTimezone reference) {
   final component = ParsingComponents(reference, {});
-  component.imply(Component.meridiem, Meridiem.AM.id);
-  component.imply(Component.hour, 12);
-  component.imply(Component.minute, 0);
+  component.assign(Component.meridiem, Meridiem.AM.id);
+  component.assign(Component.hour, 12);
+  component.assign(Component.minute, 0);
   component.imply(Component.second, 0);
   component.imply(Component.millisecond, 0);
   component.addTag("casualReference/noon");

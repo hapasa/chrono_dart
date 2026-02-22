@@ -10,15 +10,6 @@ import '../../types.dart' show Component;
 import '../../results.dart' show ParsingResult;
 import '../../utils/day.dart' show implySimilarDate;
 
-extension DayWeekdayWriter on dayjs.Day {
-  /// Gets or sets the weekday
-  dayjs.Day setWeekday(int day) {
-    final d = clone();
-    d.setValue('weekday', day);
-    d.finished();
-    return d;
-  }
-}
 
 class ForwardDateRefiner implements Refiner {
   @override
@@ -46,34 +37,28 @@ class ForwardDateRefiner implements Refiner {
 
       if (result.start.isOnlyWeekdayComponent() &&
           refMoment.isAfter(result.start.dayjs())) {
-        if (refMoment.weekday() >= result.start.get(Component.weekday)!) {
-          refMoment =
-              refMoment.setWeekday(result.start.get(Component.weekday)! + 7);
-        } else {
-          refMoment =
-              refMoment.setWeekday(result.start.get(Component.weekday)!);
+        // Simple day-offset arithmetic (matches JS original):
+        // compute days needed to reach the target weekday in the future.
+        var daysToAdd =
+            result.start.get(Component.weekday)! - refMoment.weekday();
+        if (daysToAdd <= 0) {
+          daysToAdd += 7;
         }
-
-        result.start.imply(Component.day, refMoment.date());
-        result.start.imply(Component.month, refMoment.month());
-        result.start.imply(Component.year, refMoment.year());
+        refMoment = refMoment.add(daysToAdd, 'd')!;
+        implySimilarDate(result.start, refMoment);
         context.debug(() {
           print("Forward weekly adjusted for $result (${result.start})");
         });
 
         if (result.end != null && result.end!.isOnlyWeekdayComponent()) {
-          // Adjust date to the coming week
-          if (refMoment.weekday() > result.end!.get(Component.weekday)!) {
-            refMoment =
-                refMoment.setWeekday(result.end!.get(Component.weekday)! + 7);
-          } else {
-            refMoment =
-                refMoment.setWeekday(result.end!.get(Component.weekday)!);
+          // Adjust end date to the coming occurrence after the adjusted start.
+          var endDaysToAdd =
+              result.end!.get(Component.weekday)! - refMoment.weekday();
+          if (endDaysToAdd <= 0) {
+            endDaysToAdd += 7;
           }
-
-          result.end!.imply(Component.day, refMoment.date());
-          result.end!.imply(Component.month, refMoment.month());
-          result.end!.imply(Component.year, refMoment.year());
+          refMoment = refMoment.add(endDaysToAdd, 'd')!;
+          implySimilarDate(result.end!, refMoment);
           context.debug(() {
             print("Forward weekly adjusted for $result (${result.end})");
           });
