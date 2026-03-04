@@ -19,7 +19,13 @@ ParsingComponents addImpliedTimeUnits(
   var date = components.dayjs();
   for (final key in timeUnits.keys) {
     /// TODO: WARNING: forces doubles to be int. Needs research
-    date = date.add(timeUnits[key]!.toInt(), key)!;
+    if (key == 'week') {
+      date = date.add(timeUnits[key]!.toInt() * 7, 'd')!;
+    } else if (key == 'quarter') {
+      date = date.add(timeUnits[key]!.toInt() * 3, 'month')!;
+    } else {
+      date = date.add(timeUnits[key]!.toInt(), key)!;
+    }
   }
 
   if (timeUnits.containsKey("day") ||

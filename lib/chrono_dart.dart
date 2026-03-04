@@ -8,6 +8,7 @@ import './src/types.dart' show ParsedResult, ParsingOption, ParsingReference;
 export './src/chrono.dart';
 export './src/types.dart';
 export './src/results.dart';
+export './src/locales/fr/fr.dart';
 
 abstract class Chrono {
   /// A shortcut for {@link en | chrono.en.strict}
