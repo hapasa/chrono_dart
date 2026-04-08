@@ -38,7 +38,7 @@ Chrono.parse('An appointment on Sep 12');
 }] */
 ```
 
-English and French are supported.
+English, French, and Danish are supported.
 
 ## French Usage
 
@@ -54,6 +54,20 @@ fr.strict.parse("10 Août 2012");
 ```
 
 French supports: casual dates (maintenant, aujourd'hui, demain, hier), month names (accentuated and unaccentuated), weekdays, date ranges, time expressions (8h10, 13h-15h), "il y a" (ago), "dans" (within), and relative expressions (la semaine prochaine, le mois dernier).
+
+## Danish Usage
+
+```dart
+import 'package:chrono_dart/src/locales/da/da.dart' as da;
+
+// Casual parsing
+da.casual.parseDate('Deadline er i morgen');
+da.parse('næste 2 uger');
+
+// Strict parsing
+da.strict.parse('15 august 2012');
+```
+
 
 -----------
 Port of Chrono to Dart lang.

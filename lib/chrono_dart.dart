@@ -9,6 +9,7 @@ export './src/chrono.dart';
 export './src/types.dart';
 export './src/results.dart';
 export './src/locales/fr/fr.dart';
+export './src/locales/da/da.dart' show da;
 
 abstract class Chrono {
   /// A shortcut for {@link en | chrono.en.strict}
