@@ -39,6 +39,7 @@ Chrono.parse('An appointment on Sep 12');
 ```
 
 English, French, and Danish are supported.
+English, French, Danish, Swedish, and German are supported.
 
 ## French Usage
 
@@ -66,6 +67,19 @@ da.parse('næste 2 uger');
 
 // Strict parsing
 da.strict.parse('15 august 2012');
+```
+
+## German Usage
+
+```dart
+import 'package:chrono_dart/chrono_dart.dart' show de;
+
+// Casual parsing
+de.casual.parseDate('Die Deadline ist morgen');
+de.parse('in 5 Tagen');
+
+// Strict parsing
+de.strict.parse('15. August 2012');
 ```
 
 
